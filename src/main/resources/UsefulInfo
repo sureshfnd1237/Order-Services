@@ -1,0 +1,22 @@
+git repository 
+username :sureshfnd1237
+email: sureshfnd1237@gmail.com
+password: Sahasra123$
+
+
+url:  https://github.com/sureshfnd1237/employee-services.git
+
+https://github.com/sureshfnd1237/Order-Services.git
+
+echo "# employee-services" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/sureshfnd1237/employee-services.git
+git push -u origin master
+
+
+
+http://websystique.com/springmvc/spring-mvc-4-angularjs-example/
+
+angular js front end code
