@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,7 @@ import com.order.model.CustomerResponse;
 @Path("/customers")
 public class CustomerService {
 
+	public static final Logger logger =Logger.getLogger(CustomerService.class);
 	@Autowired
 	private CustomerController customerController;
 
@@ -32,8 +34,10 @@ public class CustomerService {
 	@Path("/getCustomers")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCustomers() {
+		logger.debug("Entered "+ CustomerService.class);
 		List<Customer> customersList = customerController.getCustomers();
-		CustomerResponse customerResponse = customerController.convertCustomersListToCustomerResponse(customersList);
+		CustomerResponse customerResponse = customerController.convertCustomersListToCustomerResponseUsingCamel(customersList);
+//		CustomerResponse customerResponse = customerController.convertCustomersListToCustomerResponse(customersList);
 		return Response.status(200).entity(customerResponse).build();
 
 	}

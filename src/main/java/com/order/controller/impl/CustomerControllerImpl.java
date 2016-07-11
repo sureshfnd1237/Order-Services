@@ -3,6 +3,9 @@ package com.order.controller.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.camel.Exchange;
+import org.apache.camel.Produce;
+import org.apache.camel.ProducerTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +18,9 @@ import com.order.model.CustomerResponse;
 @Component
 public class CustomerControllerImpl implements CustomerController {
 
+	@Produce(uri = "seda:getCustomersRoute1")
+    ProducerTemplate producerTemplate;
+	
 	@Autowired
 	private CustomerDAO customerDAO;
 
@@ -110,6 +116,31 @@ public class CustomerControllerImpl implements CustomerController {
 	@Override
 	public void deleteCustomer(Integer id) {
 		customerDAO.deleteCustomer(id);
+	}
+	
+	//camel WIP
+	@Override
+	public CustomerResponse convertCustomersListToCustomerResponseUsingCamel(List<Customer> customersList) {
+
+		CustomerResponse customerResponse = new CustomerResponse();
+
+		List<CustomerModel> customerModelList = new ArrayList<>();
+//		Exchange exchange = producerTemplate.sendBody(customersList);
+		
+		 Exchange exchange = (Exchange) producerTemplate.requestBody(customersList);
+		 customerModelList = (List<CustomerModel>) exchange.getIn().getBody();
+		customerResponse.setCustomerList(customerModelList);
+		return customerResponse;
+
+	}
+	
+	@Override
+	public Exchange processRoute1(Exchange exchange){
+		Customer customer = (Customer) exchange.getIn().getBody();
+			CustomerModel customerModel = convertCustomerToCustomerModel(customer);	
+			exchange.getIn().setBody(customerModel);
+		return exchange;
+		
 	}
 
 }
