@@ -25,7 +25,7 @@
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
 	<import resource="classpath:DataSource.xml" />	
-	    <import resource = "classpath:camel-config.xml" />
+<!-- 	    <import resource = "classpath:camel-config.xml" /> -->
 <!-- 	<task:executor id = "executor" pool-size="10" /> -->
 <!--     <task:scheduler id = "scheduler" pool-size="10" /> -->
 <!--     <task:annotation-driven executor="executor" scheduler="scheduler" /> -->

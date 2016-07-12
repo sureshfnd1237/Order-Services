@@ -36,8 +36,8 @@ public class CustomerService {
 	public Response getCustomers() {
 		logger.debug("Entered "+ CustomerService.class);
 		List<Customer> customersList = customerController.getCustomers();
-		CustomerResponse customerResponse = customerController.convertCustomersListToCustomerResponseUsingCamel(customersList);
-//		CustomerResponse customerResponse = customerController.convertCustomersListToCustomerResponse(customersList);
+//		CustomerResponse customerResponse = customerController.convertCustomersListToCustomerResponseUsingCamel(customersList);
+		CustomerResponse customerResponse = customerController.convertCustomersListToCustomerResponse(customersList);
 		return Response.status(200).entity(customerResponse).build();
 
 	}
