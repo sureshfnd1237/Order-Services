@@ -1,5 +1,7 @@
 package com.order.camel.route;
 
+import java.util.List;
+
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,22 @@ public class CommonRouteBuilder extends RouteBuilder{
 	@Override
 	public void configure() throws Exception {
 		// TODO Auto-generated method stub
+//		from("seda:getCustomersRoute1")
+//		.aggregate(constant(false),new CommonAggregationStrategy())
+//        .log(LoggingLevel.INFO, "Invoices processing STARTED")
+//		.split(body())
+//        .parallelProcessing()
+//		.bean(customerController, "processRoute1")
+//		.end();
+		
+		
+		
 		from("seda:getCustomersRoute1")
-		.aggregate(constant(false),new CommonAggregationStrategy())
-        .log(LoggingLevel.INFO, "Invoices processing STARTED")
-		.split(body())
-        .parallelProcessing()
+		.split(body(List.class), new CommonAggregationStrategy())
+		.executorServiceRef("executerRefProfile").parallelProcessing()
 		.bean(customerController, "processRoute1")
 		.end();
+    
 	}
 
 }
